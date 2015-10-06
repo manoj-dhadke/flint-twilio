@@ -9,14 +9,15 @@ end
 
 account_sid = @config.global("flint-twilio.account_sid")
 auth_token  = @config.global("flint-twilio.auth_token")
+http_connector = @config.global("flint-twilio.http_connector")
 
 # Valuidate Authrization values
-if account_sid.empty? && auth_token.empty?
-   @output.exit(1,"you must configure sid and token in global configuration")
+if account_sid.nil? && auth_token.nil? && http_connector.nil?
+   @output.exit(1,"you must configure sid,token and http_connector in global configuration")
 end
 
 # validate sms message parameters
-if from.empty? && to.empty? && body.empty?
+if from.nil? && to.nil? && body.nil?
    @output.exit(2,"you must supply correct from, to and message values")
 end
 
@@ -29,7 +30,7 @@ http_body = "From=#{from}&To=#{to}&Body=#{body}"
 auth_header = "Authorization: Basic "+@util.encode64(account_sid+":"+auth_token)
 
 @log.trace("Calling Twilio API...")
-twilio_response = @call.connector("http")
+twilio_response = @call.connector(http_connector)
                     .set("method","post")                    #HTTP request method
                     .set("url","https://api.twilio.com/2010-04-01/Accounts/#{account_sid}/Messages.json")
                     .set("body",http_body)
