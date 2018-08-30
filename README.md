@@ -41,12 +41,12 @@ Know more: https://www.twilio.com
 
 ## How to use it from Flintbits
 #### Ruby
-```ruby 
+```javascript
 # call the flintbit
-@response = @call.bit("flint-twilio:sms:send.rb")
+response = call.bit("flint-twilio:sms:send.rb")
             .set("to","+19800000000")
             .set("message":"message to send")
             .sync
 # read the value. Exit code 0 means success
-exit_code = @response.exitcode
+exit_code = response.exitcode
 ```
