@@ -3,7 +3,7 @@
 ** Summary: This flintbit is used send sms using twilio.
 ** Description: This flintbit is used send sms using twilio
 **/
-log.trace("Started execution of 'flint-twilio:send.js' flintbit..")
+log.trace("Started execution of 'flint-twilio:twilio_send_message.js' flintbit..")
 
 from = input.get("twilio_number")
 to = input.get("send_sms_to")
@@ -70,6 +70,7 @@ response_headers = twilio_response.get("headers")                               
 if (response_exitcode == 0){
     log.info('Success in executing HTTP Connector where, exitcode ::'+response_exitcode.to_s+' | message :: '+response_message)
     output.set("result",(response_body))
+    to = util.decodeurl(to)
     user_message = 'SMS successfully send to ' + to + ' number'
     output.set("user_message", user_message)
 }
@@ -77,8 +78,9 @@ else
 {
     log.error('Failure in executing HTTP Connector where, exitcode ::'+response_exitcode.to_s+' | message :: ' +response_message)
     output.set("error",response_message)
+    to = util.decodeurl(to)
     user_message = 'Unable to send SMS to ' + to + ' number'
     output.set("user_message", user_message)
     output.exit(-1, response_message)
 }   
-log.trace("Finished execution of 'flint-twilio:send.js' flintbit..")
+log.trace("Finished execution of 'flint-twilio:twilio_send_message.js' flintbit..")
