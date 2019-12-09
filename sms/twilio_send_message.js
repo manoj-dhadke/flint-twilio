@@ -5,6 +5,8 @@
 **/
 log.trace("Started execution of 'flint-twilio:twilio_send_message.js' flintbit..")
 
+log.debug("Input :: "+input)
+
 from = input.get("twilio_number")
 to = input.get("send_sms_to")
 body = input.get("text_message")
